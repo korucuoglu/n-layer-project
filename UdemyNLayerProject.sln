@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UdemyNLayerProject.API", "UdemyNLayerProject.API\UdemyNLayerProject.API.csproj", "{D9AB0DEF-8937-46BF-ABC2-CE438EEA30FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UdemyNLayerProject.API", "UdemyNLayerProject.API\UdemyNLayerProject.API.csproj", "{D9AB0DEF-8937-46BF-ABC2-CE438EEA30FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UdemyNLayerProject.Core", "UdemyNLayerProject.Core\UdemyNLayerProject.Core.csproj", "{E32BFD3B-2F0F-4CFF-B21D-908575C0FE28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UdemyNLayerProject.Core", "UdemyNLayerProject.Core\UdemyNLayerProject.Core.csproj", "{E32BFD3B-2F0F-4CFF-B21D-908575C0FE28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UdemyNLayerProject.Data", "UdemyNLayerProject.Data\UdemyNLayerProject.Data.csproj", "{1E586392-0B20-4B47-80AA-13C654F22339}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UdemyNLayerProject.Data", "UdemyNLayerProject.Data\UdemyNLayerProject.Data.csproj", "{1E586392-0B20-4B47-80AA-13C654F22339}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UdemyNLayerProject.Service", "UdemyNLayerProject.Service\UdemyNLayerProject.Service.csproj", "{7E447A17-1FAB-44CD-B54F-459701AB820E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UdemyNLayerProject.Service", "UdemyNLayerProject.Service\UdemyNLayerProject.Service.csproj", "{7E447A17-1FAB-44CD-B54F-459701AB820E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UdemyNLayerProject.Web", "UdemyNLayerProject.Web\UdemyNLayerProject.Web.csproj", "{1DB604F2-127E-4B86-B790-CB76FBEACF6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7E447A17-1FAB-44CD-B54F-459701AB820E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E447A17-1FAB-44CD-B54F-459701AB820E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E447A17-1FAB-44CD-B54F-459701AB820E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DB604F2-127E-4B86-B790-CB76FBEACF6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DB604F2-127E-4B86-B790-CB76FBEACF6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DB604F2-127E-4B86-B790-CB76FBEACF6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DB604F2-127E-4B86-B790-CB76FBEACF6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

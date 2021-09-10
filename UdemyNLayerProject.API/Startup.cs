@@ -31,7 +31,7 @@ namespace UdemyNLayerProject.API
         {
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddScoped(typeof(NotFoundFilter<>));
+            // services.AddScoped(typeof(NotFoundFilter<>)); Bunu MVC tarafýnda yaptýðým için buradan kapattým. 
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IService<>), typeof(Service.Services.Service<>));
@@ -61,6 +61,13 @@ namespace UdemyNLayerProject.API
                 options.SuppressModelStateInvalidFilter = true;
             });
 
+
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -76,6 +83,8 @@ namespace UdemyNLayerProject.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors("MyPolicy");
 
             app.UseEndpoints(endpoints =>
             {

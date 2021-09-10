@@ -1,0 +1,48 @@
+﻿
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <environment names="Staging,Production">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.4/axios.min.js" integrity="sha512-lTLt+W7MrmDfKam+r3D2LURu0F47a3QaW5nF0c6Hl0JDZ57ruei+ovbg7BrZ+0bjVJ5YgzsAWE+RreERbpPE1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </environment>
+
+    <environment names="Development">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.4/axios.js" integrity="sha512-un2apco0rYUiZXxbURvZ7oBq4u0cGrXaIbC4C1k5nAio6WRMyYvj8xKua3NqALOuu0F83zDha7nKoFCZzx26rg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </environment>
+    <script src="~/js/main.js"></script>
+}
+
+<div id="app">
+
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(category, index) in categories" :key="category.id">
+
+                <td>{{category.id}}</td>
+                <td>{{category.name}}</td>
+                <td>
+                    <div style="display:flex;">
+                        <a style="margin-right:5px;" class="btn btn-sm btn-warning">Güncelle</a>
+                        <a style="margin-right:5px;" class="btn btn-sm btn-danger" @@click="deleteCategory(category, index)">Sil</a>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+
+    @*<button @@click="getCategories">Get Products</button>*@
+
+
+</div>

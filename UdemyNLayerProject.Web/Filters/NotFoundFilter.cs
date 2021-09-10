@@ -4,22 +4,26 @@ using System;
 using System.Threading.Tasks;
 using UdemyNLayerProject.Core.Services;
 using UdemyNLayerProject.Data.DTOs._Error;
+using UdemyNLayerProject.Web.ApiService;
 
-namespace UdemyNLayerProject.API.Filters
+namespace UdemyNLayerProject.Web.Filters
 {
     public class NotFoundFilter<TEntity> : IAsyncActionFilter where TEntity : class
     {
-        private readonly IService<TEntity> _service;
+        private readonly IApiService<TEntity> _service;
 
-        public NotFoundFilter(IService<TEntity> service)
+        public NotFoundFilter(IApiService<TEntity> service)
         {
             _service = service;
+            
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+
         {
+
             var id = Convert.ToInt32(context.RouteData.Values["id"].ToString());
-            
+
 
             var entry = await _service.GetByIdAsync(id);
 
@@ -32,13 +36,11 @@ namespace UdemyNLayerProject.API.Filters
             {
                 ErrorDto errorDto = new ErrorDto();
 
-                errorDto.Status = 404;
+                errorDto.Errors.Add($"id'si {id} olan kategori veritabanında bulunamadı");
 
-                errorDto.Errors.Add($"id'si {id} olan ürün veritabanında bulunamadı");
-
-                context.Result = new NotFoundObjectResult(errorDto);
-
+                context.Result = new RedirectToActionResult("Error", "Home", errorDto);
             }
+
 
         }
     }

@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using UdemyNLayerProject.API.DTOs;
-
+using UdemyNLayerProject.Data.DTOs._Error;
 
 namespace UdemyNLayerProject.API.Extensions
 {

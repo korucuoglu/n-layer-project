@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using UdemyNLayerProject.API.DTOs;
 using UdemyNLayerProject.API.Filters;
 using UdemyNLayerProject.Core.Models;
 using UdemyNLayerProject.Core.Services;
+using UdemyNLayerProject.Data.DTOs.Products;
 
 namespace UdemyNLayerProject.API.Controllers
 {
@@ -36,7 +33,7 @@ namespace UdemyNLayerProject.API.Controllers
 
 
 
-        [ServiceFilter(typeof(NotFoundFilter<Product>))]
+        // [ServiceFilter(typeof(NotFoundFilter<Product>))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -44,7 +41,7 @@ namespace UdemyNLayerProject.API.Controllers
             return Ok(_mapper.Map<ProductDto>(product));
         }
 
-        [ServiceFilter(typeof(NotFoundFilter<Product>))]
+        // [ServiceFilter(typeof(NotFoundFilter<Product>))]
         [HttpGet("{id}/category")]
         public async Task<IActionResult> GetWithCategoryById(int id)
         {
@@ -63,7 +60,7 @@ namespace UdemyNLayerProject.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update(ProductDto model)
+        public IActionResult Update(ProductUptadeDto model)
         {
             _productService.Update(_mapper.Map<Product>(model));
 
@@ -71,7 +68,7 @@ namespace UdemyNLayerProject.API.Controllers
 
         }
 
-        [ServiceFilter(typeof(NotFoundFilter<Product>))]
+        // [ServiceFilter(typeof(NotFoundFilter<Product>))]
         [HttpDelete("{id}")]
         public IActionResult Remove(int id)
         {

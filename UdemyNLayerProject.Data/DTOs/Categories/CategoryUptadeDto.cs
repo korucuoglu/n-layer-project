@@ -4,13 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UdemyNLayerProject.API.DTOs
+namespace UdemyNLayerProject.Data.DTOs.Categories
 {
-    public class CategoryDto
+    public class CategoryUptadeDto
     {
+        [Required(ErrorMessage = "{0} alanı gereklidir")]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "{0} alanı gereklidir")]
         public string Name { get; set; }
     }
 }

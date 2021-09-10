@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UdemyNLayerProject.API.DTOs
+namespace UdemyNLayerProject.Data.DTOs.Products
 {
     public class ProductDto
     {
@@ -18,7 +18,6 @@ namespace UdemyNLayerProject.API.DTOs
 
         [Range(1, double.MaxValue, ErrorMessage = "{0} alanı 1'den büyük bir değer olmalıdır.")]
         public decimal Price { get; set; }
-
         public int CategoryId { get; set; }
 
     }

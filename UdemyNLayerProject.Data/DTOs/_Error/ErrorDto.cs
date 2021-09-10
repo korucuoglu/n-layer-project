@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace UdemyNLayerProject.API.DTOs
+namespace UdemyNLayerProject.Data.DTOs._Error
 {
     public class ErrorDto
     {
