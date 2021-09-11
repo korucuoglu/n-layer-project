@@ -16,8 +16,25 @@
 
 <div id="app">
 
+    <div v-if="editing" class="row mb-5 mt-3">
+        <div class="col-md-2">
+            <label class="label">Kategori Adı:</label>
+        </div>
+        <div class="col-md-6">
+            <input type="text" v-model="categoryModel.name" class="form-control" placeholder="Kategori Adı">
+        </div>
+        <div class="col-md-4">
+            <input v-if="categoryModel.id!=0" type="button" class="mr-3 btn btn-warning" @@click="updateCategory" value="Güncelle">
+            <input v-if="categoryModel.id==0" type="button" class="mr-3 btn btn-primary" @@click="createCategory" value="Kaydet">
+            <input type="button" class="mr-3 btn btn-danger" @@click="cancel" value="İptal Et">
+        </div>
+    </div>
 
-    <table class="table table-bordered">
+    <button type="button" @@click="newCategory" v-if="!editing" class="btn btn-primary mt-2 mb-2">Kategori Oluştur</button>
+
+
+
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Id</th>
@@ -32,7 +49,7 @@
                 <td>{{category.name}}</td>
                 <td>
                     <div style="display:flex;">
-                        <a style="margin-right:5px;" class="btn btn-sm btn-warning">Güncelle</a>
+                        <a style="margin-right:5px;" class="btn btn-sm btn-warning" @@click="editCategory(category, index)">Güncelle</a>
                         <a style="margin-right:5px;" class="btn btn-sm btn-danger" @@click="deleteCategory(category, index)">Sil</a>
                     </div>
                 </td>
@@ -40,9 +57,5 @@
 
         </tbody>
     </table>
-
-
-    @*<button @@click="getCategories">Get Products</button>*@
-
 
 </div>

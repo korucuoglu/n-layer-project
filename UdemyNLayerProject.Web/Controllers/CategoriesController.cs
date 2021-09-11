@@ -36,6 +36,7 @@ namespace UdemyNLayerProject.Web.Controllers
             return View("Main");
         }
 
+
         public IActionResult Create()
         {
             return View();
@@ -66,7 +67,7 @@ namespace UdemyNLayerProject.Web.Controllers
             //return View(_mapper.Map<CategoryUptadeDto>(category));
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> Update(CategoryUptadeDto uptadeDto)
         {
             CategoryDto dto = new CategoryDto
@@ -78,6 +79,7 @@ namespace UdemyNLayerProject.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpDelete("{id}")]
         [ServiceFilter(typeof(NotFoundFilter<CategoryDto>))]
         public async Task<IActionResult> Delete(int id)
         {
