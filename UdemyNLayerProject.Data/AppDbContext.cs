@@ -1,14 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using UdemyNLayerProject.Core.Models;
+using UdemyNLayerProject.Data.Authentication;
 using UdemyNLayerProject.Data.Configuration;
 using UdemyNLayerProject.Data.Seeds;
 
 namespace UdemyNLayerProject.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -34,6 +33,8 @@ namespace UdemyNLayerProject.Data
             modelBuilder.ApplyConfiguration(new CategorySeed(new int[] { 1, 2 }));
 
             modelBuilder.ApplyConfiguration(new PersonConfiguration());
+
+            base.OnModelCreating(modelBuilder);
         }
 
     }

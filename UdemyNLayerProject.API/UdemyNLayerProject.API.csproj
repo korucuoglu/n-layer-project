@@ -20,5 +20,9 @@
     <ProjectReference Include="..\UdemyNLayerProject.Service\UdemyNLayerProject.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Authentication\" />
+  </ItemGroup>
+
 
 </Project>
