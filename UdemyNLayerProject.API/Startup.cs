@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using UdemyNLayerProject.API.Service;
 
 namespace UdemyNLayerProject.API
 {
@@ -34,9 +35,11 @@ namespace UdemyNLayerProject.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddSingleton<RedisService>();
             services.AddAutoMapper(typeof(Startup));
 
-            // services.AddScoped(typeof(NotFoundFilter<>)); Bunu MVC tarafýnda yaptýðým için buradan kapattým. 
+            services.AddScoped(typeof(NotFoundFilter<>)); // Bunu MVC tarafýnda yaptýðým için buradan kapattým. 
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IService<>), typeof(Service<>));
@@ -52,6 +55,8 @@ namespace UdemyNLayerProject.API
                     o.MigrationsAssembly("UdemyNLayerProject.Data");
                 });
             });
+
+
 
             // ValidationFilter yapýsýný tüm Controller'da girmek yerine sadece burada yazdýk. 
             services.AddControllers(o =>
@@ -103,8 +108,10 @@ namespace UdemyNLayerProject.API
             }));
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, RedisService redisService)
         {
+            redisService.Connect();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
+using StackExchange.Redis;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UdemyNLayerProject.API.Filters;
+using UdemyNLayerProject.API.Service;
 using UdemyNLayerProject.Core.Models;
 using UdemyNLayerProject.Core.Services;
 using UdemyNLayerProject.Data.DTOs.Categories;
@@ -18,10 +22,14 @@ namespace UdemyNLayerProject.API.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
 
-        public CategoriesController(ICategoryService categoryService, IMapper mapper)
+        private readonly RedisService _redisService;
+
+        public CategoriesController(ICategoryService categoryService, IMapper mapper, RedisService redisService)
         {
             _categoryService = categoryService;
             _mapper = mapper;
+            _redisService = redisService;
+
 
             // Biz startup içersine yazdığımız kodla mimariye sen ICategoryService türünden nesne ile karşılaşırsan
             // bize CategoryService nesnesi oluştur demiştik. Burada da bize CategoryService gelecektir. 
@@ -34,16 +42,24 @@ namespace UdemyNLayerProject.API.Controllers
             return Ok(_mapper.Map<IEnumerable<CategoryDto>>(categories));
         }
 
-        // [ServiceFilter(typeof(NotFoundFilter<Category>))]
+        [ServiceFilter(typeof(NotFoundFilter<Category>))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var category = await _categoryService.GetByIdAsync(id);
-            return Ok(_mapper.Map<CategoryDto>(category));
+           CategoryDto redisDto = new CategoryDto();
+           redisDto = await _redisService.GetAsync<CategoryDto>($"categories:{id}");
+
+            if (redisDto == null)
+            {
+                redisDto = _mapper.Map<CategoryDto>(await _categoryService.GetByIdAsync(id));  
+                _redisService.SetAsync($"categories:{id}", redisDto);
+            }
+            return Ok(redisDto);
+
         }
 
-        // [ServiceFilter(typeof(NotFoundFilter<Category>))]
-        [HttpGet("{id}/products")]
+        [ServiceFilter(typeof(NotFoundFilter<Category>))]
+        [HttpGet("{id}/categories")]
         public async Task<IActionResult> GetWithProductsById(int id)
         {
             var categories = await _categoryService.GetWithProductsByIdAsync(id);
@@ -71,7 +87,7 @@ namespace UdemyNLayerProject.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        // [ServiceFilter(typeof(NotFoundFilter<Category>))]
+        [ServiceFilter(typeof(NotFoundFilter<Category>))]
         public IActionResult Remove(int id)
         {
             var category = _categoryService.GetByIdAsync(id).Result;
