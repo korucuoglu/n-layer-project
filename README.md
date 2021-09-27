@@ -6,6 +6,7 @@ Bu projede Udemy üzerinden aldığım eğitim setlerinin örneklerini yapmaktay
 - Generic Repository ve Unit of Work Kullanımı
 - Code First Yaklaşımı ve Migration İşlemleri
 - Asp.Net Core Api 
+- AutoMapper
 - Generic Api Service
 - Entity Framework Core 
 - Entity Framework Core Identity 
