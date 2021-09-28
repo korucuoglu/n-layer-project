@@ -17,19 +17,18 @@ namespace UdemyNLayerProject.API.Controllers
     [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController : ControllerBase
+    public class CategoriesController : BaseController
     {
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
 
-        private readonly RedisService _redisService;
+       
 
-        public CategoriesController(ICategoryService categoryService, IMapper mapper, RedisService redisService)
+        public CategoriesController(ICategoryService categoryService, IMapper mapper, RedisService redisService):base(redisService)
         {
             _categoryService = categoryService;
             _mapper = mapper;
-            _redisService = redisService;
-
+           
 
             // Biz startup içersine yazdığımız kodla mimariye sen ICategoryService türünden nesne ile karşılaşırsan
             // bize CategoryService nesnesi oluştur demiştik. Burada da bize CategoryService gelecektir. 
@@ -38,8 +37,17 @@ namespace UdemyNLayerProject.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var categories = await _categoryService.GetAllAsync();
-            return Ok(_mapper.Map<IEnumerable<CategoryDto>>(categories));
+
+            var redisDto = await _redisService.GetAsync<IEnumerable<CategoryDto>>($"categories");
+
+            if (redisDto == null)
+            {
+                 redisDto = _mapper.Map<IEnumerable<CategoryDto>>(await _categoryService.GetAllAsync());
+                _redisService.SetAsync($"categories", redisDto);
+            }
+            return Ok(redisDto);
+
+            
         }
 
         [ServiceFilter(typeof(NotFoundFilter<Category>))]

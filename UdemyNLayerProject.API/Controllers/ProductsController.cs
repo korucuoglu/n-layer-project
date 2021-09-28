@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UdemyNLayerProject.API.Filters;
+using UdemyNLayerProject.API.Service;
 using UdemyNLayerProject.Core.Models;
 using UdemyNLayerProject.Core.Services;
 using UdemyNLayerProject.Data.DTOs.Products;
@@ -11,13 +12,11 @@ namespace UdemyNLayerProject.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductsController : BaseController
     {
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
-
-
-        public ProductsController(IProductService productService, IMapper mapper)
+        public ProductsController(IProductService productService, IMapper mapper, RedisService redisService): base(redisService)
         {
             _productService = productService;
             _mapper = mapper;
@@ -27,21 +26,34 @@ namespace UdemyNLayerProject.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var products = await _productService.GetAllAsync();
-            return Ok(_mapper.Map<IEnumerable<ProductDto>>(products));
+            var redisDto = await _redisService.GetAsync<IEnumerable<ProductDto>>($"products");
+
+            if (redisDto == null)
+            {
+                redisDto = _mapper.Map<IEnumerable<ProductDto>>(await _productService.GetAllAsync());
+                _redisService.SetAsync($"products", redisDto);
+            }
+            return Ok(redisDto);
         }
 
 
 
-        // [ServiceFilter(typeof(NotFoundFilter<Product>))]
+        [ServiceFilter(typeof(NotFoundFilter<Product>))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var product = await _productService.GetByIdAsync(id);
-            return Ok(_mapper.Map<ProductDto>(product));
+            ProductDto redisDto = new ProductDto();
+            redisDto = await _redisService.GetAsync<ProductDto>($"products:{id}");
+
+            if (redisDto == null)
+            {
+               redisDto = _mapper.Map<ProductDto>(await _productService.GetByIdAsync(id));
+               _redisService.SetAsync($"products:{id}", redisDto);
+            }
+            return Ok(redisDto);
         }
 
-        // [ServiceFilter(typeof(NotFoundFilter<Product>))]
+        [ServiceFilter(typeof(NotFoundFilter<Product>))]
         [HttpGet("{id}/category")]
         public async Task<IActionResult> GetWithCategoryById(int id)
         {
@@ -68,7 +80,7 @@ namespace UdemyNLayerProject.API.Controllers
 
         }
 
-        // [ServiceFilter(typeof(NotFoundFilter<Product>))]
+        [ServiceFilter(typeof(NotFoundFilter<Product>))]
         [HttpDelete("{id}")]
         public IActionResult Remove(int id)
         {
