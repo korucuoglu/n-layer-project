@@ -12,4 +12,5 @@ Bu projede Udemy üzerinden aldığım eğitim setlerinin örneklerini yapmaktay
 - Entity Framework Core Identity 
 - JWT Token
 - VueJs ile CRUD İşlemleri
-- Redis Cache 
+- Redis Cache
+- Unit Test: Xunit && Mock Framework
