@@ -22,14 +22,6 @@ namespace UdemyNLayerProject.Web.Controllers
 
         }
 
-        //private readonly GenericApiService _apiService;
-
-
-        //public CategoriesController(GenericApiService apiService)
-        //{
-        //    _apiService = apiService;
-        //}
-
         public  IActionResult Index()
         {
 
@@ -64,7 +56,6 @@ namespace UdemyNLayerProject.Web.Controllers
 
             return View(dto);
 
-            //return View(_mapper.Map<CategoryUptadeDto>(category));
         }
 
         [HttpPut]
@@ -83,7 +74,7 @@ namespace UdemyNLayerProject.Web.Controllers
         [ServiceFilter(typeof(NotFoundFilter<CategoryDto>))]
         public async Task<IActionResult> Delete(int id)
         {
-            var sonuc = await _apiService.Remove(id);
+            await _apiService.Remove(id);
 
             return RedirectToAction("Index");
         }
